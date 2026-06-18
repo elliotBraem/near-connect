@@ -127,7 +127,7 @@ class HOT {
     // @ts-ignore
     window.openTelegram = () => window.selector.open(`https://t.me/hot_wallet/app?startapp=${link}`); // @ts-ignore
     window.openExtension = () => window.selector.open(`https://download.hot-labs.org?hotconnector`); // @ts-ignore
-    window.openMobile = () => window.selector.open(`hotwallet://${link}`);
+    window.openMobile = () => window.selector.openNativeApp(`hotwallet://${link}`);
 
     const poolResponse = async () => {
       await wait(3000);

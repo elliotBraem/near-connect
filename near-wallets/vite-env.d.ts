@@ -38,6 +38,8 @@ interface Window {
       closed: boolean;
     };
 
+    openNativeApp: (url: string) => Promise<void>;
+
     showContent: () => void;
     storage: {
       set: (key: string, value: string) => Promise<void>;
