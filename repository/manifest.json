@@ -346,6 +346,33 @@
       }
     },
     {
+      "id": "hana-wallet",
+      "name": "Hana Wallet",
+      "icon": "https://res.cloudinary.com/reliantnode/image/upload/v1779783598/hana/token-logos/Hana_Icon.svg",
+      "description": "Hana Wallet is a powerful, yet simple-to-use cryptocurrency wallet available as both a mobile app and a desktop extension.",
+      "website": "https://www.hana.money",
+      "version": "1.0.0",
+      "executor": "https://raw.githubusercontent.com/Hana-Technology/near-connect/refs/heads/feature/hana-wallet/repository/hana.js",
+      "type": "sandbox",
+      "platform": {
+        "web": "https://www.hana.money",
+        "chrome": "https://chromewebstore.google.com/detail/hana-wallet/jfdlamikmbghhapbgfoogdffldioobgl",
+        "android": "https://play.google.com/store/apps/details?id=com.HanaTech.Wallet",
+        "ios": "https://apps.apple.com/us/app/hana-wallet/id6447821572"
+      },
+      "permissions": {
+        "storage": true,
+        "external": ["hanaWallet.near"],
+        "allowsOpen": ["https://www.hana.money", "https://chromewebstore.google.com/detail/hana-wallet/jfdlamikmbghhapbgfoogdffldioobgl"]
+      },
+      "features": {
+        "signMessage": true,
+        "signInWithoutAddKey": true,
+        "signAndSendTransaction": true,
+        "signAndSendTransactions": true
+      }
+    },
+    {
       "id": "near-cli",
       "name": "NEAR CLI",
       "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a1a2e'/%3E%3Cpolyline points='18 40 28 30 18 20' fill='none' stroke='%2300d4aa' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='32' y1='42' x2='46' y2='42' stroke='%2300d4aa' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E",
