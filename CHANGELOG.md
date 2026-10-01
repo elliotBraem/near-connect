@@ -1,3 +1,7 @@
+# Unreleased
+
+- MNW executor: an empty `providers` array from the page is now treated as "no providers" (falling back to the network's own node URL) instead of being passed to `NearRpc` as-is, which silently routed testnet RPC calls to mainnet.
+
 # 0.11.4
 
 - Add `cspNonce` option to `NearConnector` for CSP compliance. When set, the nonce is added to both `<script>` tags inside the `srcdoc` sandbox iframe, allowing them to execute under nonce-based Content Security Policy.
