@@ -1,0 +1,75 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SandboxWallet = void 0;
+const actions_1 = require("../actions");
+const gas_keys_1 = require("../actions/gas-keys");
+const executor_1 = __importDefault(require("./executor"));
+class SandboxWallet {
+    connector;
+    manifest;
+    executor;
+    constructor(connector, manifest) {
+        this.connector = connector;
+        this.manifest = manifest;
+        this.executor = new executor_1.default(connector, manifest);
+    }
+    async signIn(data) {
+        return this.executor.call("wallet:signIn", {
+            network: data?.network ?? this.connector.network,
+            addFunctionCallKey: data?.addFunctionCallKey,
+        });
+    }
+    async signInAndSignMessage(data) {
+        return this.executor.call("wallet:signInAndSignMessage", {
+            network: data?.network ?? this.connector.network,
+            addFunctionCallKey: data?.addFunctionCallKey,
+            messageParams: data.messageParams,
+        });
+    }
+    async signOut(data) {
+        const args = { ...data, network: data?.network ?? this.connector.network };
+        await this.executor.call("wallet:signOut", args);
+        await this.executor.clearStorage();
+    }
+    async getAccounts(data) {
+        const args = { ...data, network: data?.network ?? this.connector.network };
+        return this.executor.call("wallet:getAccounts", args);
+    }
+    async signAndSendTransaction(params) {
+        const actions = (0, actions_1.nearActionsToConnectorActions)(params.actions);
+        (0, gas_keys_1.assertGasKeyActionsSupported)(this.manifest.features, actions, this.manifest.name);
+        const args = { ...params, actions, network: params.network ?? this.connector.network };
+        return this.executor.call("wallet:signAndSendTransaction", args);
+    }
+    async signAndSendTransactions(params) {
+        const transactions = params.transactions.map((transaction) => ({
+            actions: (0, actions_1.nearActionsToConnectorActions)(transaction.actions),
+            receiverId: transaction.receiverId,
+        }));
+        (0, gas_keys_1.assertGasKeyActionsSupported)(this.manifest.features, transactions.flatMap((transaction) => transaction.actions), this.manifest.name);
+        const args = { ...params, transactions, network: params.network ?? this.connector.network };
+        return this.executor.call("wallet:signAndSendTransactions", args);
+    }
+    async signMessage(params) {
+        const args = { ...params, network: params.network ?? this.connector.network };
+        return this.executor.call("wallet:signMessage", args);
+    }
+    async signDelegateActions(params) {
+        const args = {
+            ...params,
+            delegateActions: params.delegateActions.map((delegateAction) => ({
+                ...delegateAction,
+                actions: (0, actions_1.nearActionsToConnectorActions)(delegateAction.actions),
+            })),
+            network: params.network ?? this.connector.network,
+        };
+        (0, gas_keys_1.assertGasKeyActionsSupported)(this.manifest.features, args.delegateActions.flatMap((delegateAction) => delegateAction.actions), this.manifest.name);
+        return this.executor.call("wallet:signDelegateActions", args);
+    }
+}
+exports.SandboxWallet = SandboxWallet;
+exports.default = SandboxWallet;
+//# sourceMappingURL=index.js.map
