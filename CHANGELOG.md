@@ -1,5 +1,6 @@
 # Unreleased
 
+<<<<<<< HEAD
 - **Security: `nearActionsToConnectorActions` no longer escalates unknown `AddKey` permissions to `FullAccess`.** A permission that is neither `functionCall` nor `fullAccess` (a typo, or a future gas-key permission) now throws instead of silently minting a full-access key. Pass a `ConnectorAction` explicitly if you need an unusual permission.
 - `SignedDelegate` actions inside a transaction now throw a clear error instead of being passed through; delegates are signed via `signDelegateActions`.
 - Fix `deployGlobalContract` mapping: the `AccountId` deploy mode (which near-api-js stores as `null`) now maps correctly in all shapes, and the `enum` field is treated as authoritative so the inactive variant key no longer misclassifies the mode.
@@ -8,6 +9,9 @@
 - New `yarn test` script (build + public type assertions + no-near-js guard), and `prepublish` → `prepublishOnly` (npm 7+ never runs `prepublish`).
 - `WalletFeatures`, `SignDelegateActionsResponse` and the `Execution*` outcome types are now exported from the package root.
 - Example app now consumes the library's structural `FinalExecutionOutcome` instead of `@near-js/types` (a string-enum field on near's type made the near-typed version non-assignable in the other direction).
+- **Gas-key actions (protocol 85+)**: `AddKey` accepts `params.gasKeyInfo` (`{ balance, numNonces }`, turning the permission into GasKeyFullAccess / GasKeyFunctionCall), and `TransferToGasKey` / `WithdrawFromGasKey` join the `ConnectorAction` union.
+- New manifest feature `gasKeys`. Every wallet wrapper refuses gas-key actions for wallets that do not set it (`assertGasKeyActionsSupported`, exported, fail-closed), so a wallet that does not know `gasKeyInfo` can never add a plain key by mistake. No bundled wallet advertises it yet.
+- Example action builder throws for action types it has no form for, instead of relying on exhaustive-switch fallthrough.
 
 # 0.11.4
 
