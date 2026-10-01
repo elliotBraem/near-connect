@@ -1,3 +1,9 @@
+# Unreleased
+
+- **Gas-key actions (protocol 85+)**: `AddKey` accepts `params.gasKeyInfo` (`{ balance, numNonces }`, turning the permission into GasKeyFullAccess / GasKeyFunctionCall), and `TransferToGasKey` / `WithdrawFromGasKey` join the `ConnectorAction` union.
+- New manifest feature `gasKeys`. Every wallet wrapper refuses gas-key actions for wallets that do not set it (`assertGasKeyActionsSupported`, exported, fail-closed), so a wallet that does not know `gasKeyInfo` can never add a plain key by mistake. No bundled wallet advertises it yet.
+- Example action builder throws for action types it has no form for, instead of relying on exhaustive-switch fallthrough.
+
 # 0.11.4
 
 - Add `cspNonce` option to `NearConnector` for CSP compliance. When set, the nonce is added to both `<script>` tags inside the `srcdoc` sandbox iframe, allowing them to execute under nonce-based Content Security Policy.
