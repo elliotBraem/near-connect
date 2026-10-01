@@ -1,3 +1,7 @@
+# 0.12.0-fork.2
+
+- `IframeExecutor` dispose guard: `postMessage` after the wallet popup is rejected/disposed is now a silent no-op instead of throwing "Iframe not loaded" (surfaced as broken wallet login flows when a popup was dismissed mid-request, notably on Windows). If the iframe is alive but its `contentWindow` is missing, the error now names the method: "Iframe not loaded for \<method\>". Fixes the issue previously carried as a local patch by consumers.
+
 # 0.12.0
 
 - **Security: `nearActionsToConnectorActions` no longer escalates unknown `AddKey` permissions to `FullAccess`.** A permission that is neither `functionCall` nor `fullAccess` (a typo, or a future gas-key permission) now throws instead of silently minting a full-access key. Pass a `ConnectorAction` explicitly if you need an unusual permission.

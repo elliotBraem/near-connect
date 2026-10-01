@@ -10,6 +10,7 @@ const code_1 = __importDefault(require("./code"));
 class IframeExecutor {
     executor;
     origin;
+    disposed = false;
     iframe = document.createElement("iframe");
     events = new events_1.EventEmitter();
     popup;
@@ -59,6 +60,7 @@ class IframeExecutor {
             iframe: this.iframe,
             onApprove: () => { },
             onReject: () => {
+                this.disposed = true;
                 window.removeEventListener("message", this.handler);
                 this.events.emit("close", {});
                 this.popup.destroy();
@@ -76,11 +78,15 @@ class IframeExecutor {
         this.popup.hide();
     }
     postMessage(data) {
-        if (!this.iframe.contentWindow)
-            throw new Error("Iframe not loaded");
-        this.iframe.contentWindow.postMessage({ ...data, origin: this.origin }, "*");
+        if (this.disposed)
+            return;
+        const contentWindow = this.iframe.contentWindow;
+        if (!contentWindow)
+            throw new Error(`Iframe not loaded for ${data?.method ?? "unknown method"}`);
+        contentWindow.postMessage({ ...data, origin: this.origin }, "*");
     }
     dispose() {
+        this.disposed = true;
         window.removeEventListener("message", this.handler);
         this.popup.destroy();
     }

@@ -2,6 +2,7 @@ import SandboxExecutor from "./executor";
 declare class IframeExecutor {
     readonly executor: SandboxExecutor;
     readonly origin: string;
+    disposed: boolean;
     private iframe;
     private events;
     private popup;
