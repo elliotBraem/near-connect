@@ -13,6 +13,7 @@
 - Example action builder throws for action types it has no form for, instead of relying on exhaustive-switch fallthrough.
 - **Executor crash reporting.** Sandbox iframes now report `error` and `unhandledrejection` back to the host as `wallet-error`, and the connector's ready promise rejects with a clear message instead of hanging when a wallet executor crashes on load. A 5-second fallback timeout covers the case where the executor script itself fails to load (e.g. network timeout on the executor fetch); the iframe is disposed on failure.
 - Sandbox iframe hardening: `fetch` is re-bound to `window` (bundled code that aliases/destructures fetch no longer throws "Illegal invocation"), `window.localStorage` is overridden to return the sandboxed proxy for every access pattern (including SES lockdown introspection), and bare `localStorage` references in executor code are rewritten alongside the existing `.localStorage` rewrite. All injected scripts carry the CSP nonce when `cspNonce` is set.
+- Popups: Escape closes the popup with the same semantics as clicking the backdrop, and `destroy()` disposes document-level listeners so they cannot leak per popup open.
 
 # 0.11.4
 
