@@ -4,6 +4,10 @@
 - `SignedDelegate` actions inside a transaction now throw a clear error instead of being passed through; delegates are signed via `signDelegateActions`.
 - Fix `deployGlobalContract` mapping: the `AccountId` deploy mode (which near-api-js stores as `null`) now maps correctly in all shapes, and the `enum` field is treated as authoritative so the inactive variant key no longer misclassifies the mode.
 - `useGlobalContract` identifier mapping is null-safe (`AccountId: ""` no longer falls through to `codeHash`).
+- **The package no longer references near-api-js at all.** The published `build/*.d.ts` re-exported `FinalExecutionOutcome` and `Action` from `@near-js/*` while declaring no dependency on them, so consumers without near-api-js installed saw unresolved types. Both are now structural types owned by this package (`NearApiJsActionLike` and a structural `FinalExecutionOutcome` family, same exported names and shapes — near-api-js values remain assignable). `@near-js/*` devDependencies are removed, and a new `test:no-near-js` guard fails the build if any `@near-js` import ever reaches `build/`.
+- New `yarn test` script (build + public type assertions + no-near-js guard), and `prepublish` → `prepublishOnly` (npm 7+ never runs `prepublish`).
+- `WalletFeatures`, `SignDelegateActionsResponse` and the `Execution*` outcome types are now exported from the package root.
+- Example app now consumes the library's structural `FinalExecutionOutcome` instead of `@near-js/types` (a string-enum field on near's type made the near-typed version non-assignable in the other direction).
 
 # 0.11.4
 

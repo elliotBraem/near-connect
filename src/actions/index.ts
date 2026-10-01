@@ -1,4 +1,4 @@
-import type { Action } from "@near-js/transactions";
+import type { NearApiJsActionLike } from "./near-api-js-shapes";
 import { ConnectorAction, AddKeyAction } from "./types";
 import { encodeBase58 } from "../helpers/base58";
 
@@ -21,7 +21,7 @@ const isFullAccessPermission = (permission: { enum?: string }): boolean =>
 const isAccountIdDeployMode = (deployMode: { enum?: string }): boolean =>
   deployMode.enum != null ? deployMode.enum === "AccountId" : "AccountId" in deployMode;
 
-export const nearActionsToConnectorActions = (actions: (Action | ConnectorAction)[]): ConnectorAction[] => {
+export const nearActionsToConnectorActions = (actions: (NearApiJsActionLike | ConnectorAction)[]): ConnectorAction[] => {
   return actions.map((action) => {
     if ("type" in action) return action as ConnectorAction;
 

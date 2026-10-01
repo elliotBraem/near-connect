@@ -1,4 +1,4 @@
-import { FinalExecutionOutcome } from "@near-js/types";
+import { FinalExecutionOutcome } from "@hot-labs/near-connect";
 
 interface IPropsFinalOutcome {
   outcome: FinalExecutionOutcome;

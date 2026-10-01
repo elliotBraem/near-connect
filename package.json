@@ -24,14 +24,15 @@
     "pre-build": "node build-scripts/updateNearConnectVersionInCode.js",
     "build:wallets": "cd near-wallets && yarn build:wallets",
     "build": "rm -rf build && yarn pre-build && yarn tsc",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build && yarn cdn",
     "cdn": "yarn pre-build && vite build",
+    "test": "yarn build && yarn test:types && yarn test:no-near-js",
+    "test:types": "tsc --noEmit --strict --skipLibCheck --moduleResolution node --module commonjs --target ESNext test/public-types.ts",
+    "test:no-near-js": "node build-scripts/assertNoNearJsInBuild.js",
     "type-check": "tsc --noEmit",
     "type-check-all": "yarn run type-check && cd example && yarn run type-check && cd ../near-wallets && yarn run type-check"
   },
   "devDependencies": {
-    "@near-js/transactions": "^2.5.1",
-    "@near-js/types": "^2.5.1",
     "@tanstack/intent": "^0.0.40",
     "typescript": "^5.2.2",
     "vite": "^7.2.2",
