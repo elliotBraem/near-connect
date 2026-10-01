@@ -7,6 +7,11 @@ export type { NearConnectorOptions } from "./NearConnector";
 
 export { nearActionsToConnectorActions } from "./actions";
 export type { ConnectorAction } from "./actions/types";
+export type {
+  NearApiJsActionLike,
+  NearApiJsAccessKeyPermissionLike,
+  NearApiJsFunctionCallPermissionLike,
+} from "./actions/near-api-js-shapes";
 export type { WalletPlugin } from "./types/plugin";
 
 export type {
@@ -19,13 +24,22 @@ export type {
   SignAndSendTransactionParams,
   SignAndSendTransactionsParams,
   SignDelegateActionsParams,
+  SignDelegateActionsResponse,
   NearConnector_ConnectOptions,
   SignInAndSignMessageParams,
   Account,
   AccountWithSignedMessage,
   EventMap,
   EventType,
+  WalletFeatures,
   AddFunctionCallKeyParams,
   AddFunctionCallKey_AllowMethods,
   AddFunctionCallKey_GasAllowance,
+  Action,
+  FinalExecutionOutcome,
+  ExecutionOutcome,
+  ExecutionOutcomeWithId,
+  ExecutionStatus,
+  FinalExecutionStatus,
+  ExecutionError,
 } from "./types";

@@ -1,8 +1,54 @@
-import type { FinalExecutionOutcome } from "@near-js/types";
-import type { Action } from "@near-js/transactions";
 import type { ConnectorAction } from "../actions/types";
+import type { NearApiJsActionLike } from "../actions/near-api-js-shapes";
 
-export type { FinalExecutionOutcome, Action };
+/**
+ * A near-api-js-shaped action (see `NearApiJsActionLike`). Kept under the name
+ * `Action` for backwards compatibility with earlier releases that re-exported
+ * the near-api-js type here; near-connect does not depend on near-api-js.
+ */
+export type Action = NearApiJsActionLike;
+
+// ---- RPC final execution outcome (structural copy of the JSON-RPC shape; no
+// near-api-js dependency). Wallets return exactly what the RPC returned.
+
+export interface ExecutionError {
+  error_message: string;
+  error_type: string;
+}
+
+export interface ExecutionStatus {
+  SuccessValue?: string;
+  SuccessReceiptId?: string;
+  Failure?: ExecutionError;
+}
+
+export interface ExecutionOutcome {
+  logs: string[];
+  receipt_ids: string[];
+  gas_burnt: number;
+  tokens_burnt: string;
+  executor_id: string;
+  status: ExecutionStatus | "Unknown" | "Pending" | "Failure";
+}
+
+export interface ExecutionOutcomeWithId {
+  id: string;
+  outcome: ExecutionOutcome;
+}
+
+export interface FinalExecutionStatus {
+  SuccessValue?: string;
+  Failure?: ExecutionError;
+}
+
+export interface FinalExecutionOutcome {
+  final_execution_status: "NONE" | "INCLUDED" | "INCLUDED_FINAL" | "EXECUTED" | "FINAL" | "EXECUTED_OPTIMISTIC";
+  status: FinalExecutionStatus | "NotStarted" | "Started" | "Failure";
+  transaction: unknown;
+  transaction_outcome: ExecutionOutcomeWithId;
+  receipts_outcome: ExecutionOutcomeWithId[];
+  receipts?: unknown[];
+}
 
 export type Logger = {
   log: (...logs: any[]) => void;
