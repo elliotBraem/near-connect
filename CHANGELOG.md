@@ -1,3 +1,7 @@
+# Unreleased
+
+- Popups: Escape closes the popup with the same semantics as clicking the backdrop, and `destroy()` disposes document-level listeners so they cannot leak per popup open.
+
 # 0.11.4
 
 - Add `cspNonce` option to `NearConnector` for CSP compliance. When set, the nonce is added to both `<script>` tags inside the `srcdoc` sandbox iframe, allowing them to execute under nonce-based Content Security Policy.
