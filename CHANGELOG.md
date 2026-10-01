@@ -1,6 +1,5 @@
 # Unreleased
 
-<<<<<<< HEAD
 - **Security: `nearActionsToConnectorActions` no longer escalates unknown `AddKey` permissions to `FullAccess`.** A permission that is neither `functionCall` nor `fullAccess` (a typo, or a future gas-key permission) now throws instead of silently minting a full-access key. Pass a `ConnectorAction` explicitly if you need an unusual permission.
 - `SignedDelegate` actions inside a transaction now throw a clear error instead of being passed through; delegates are signed via `signDelegateActions`.
 - Fix `deployGlobalContract` mapping: the `AccountId` deploy mode (which near-api-js stores as `null`) now maps correctly in all shapes, and the `enum` field is treated as authoritative so the inactive variant key no longer misclassifies the mode.
@@ -12,6 +11,8 @@
 - **Gas-key actions (protocol 85+)**: `AddKey` accepts `params.gasKeyInfo` (`{ balance, numNonces }`, turning the permission into GasKeyFullAccess / GasKeyFunctionCall), and `TransferToGasKey` / `WithdrawFromGasKey` join the `ConnectorAction` union.
 - New manifest feature `gasKeys`. Every wallet wrapper refuses gas-key actions for wallets that do not set it (`assertGasKeyActionsSupported`, exported, fail-closed), so a wallet that does not know `gasKeyInfo` can never add a plain key by mistake. No bundled wallet advertises it yet.
 - Example action builder throws for action types it has no form for, instead of relying on exhaustive-switch fallthrough.
+- **Executor crash reporting.** Sandbox iframes now report `error` and `unhandledrejection` back to the host as `wallet-error`, and the connector's ready promise rejects with a clear message instead of hanging when a wallet executor crashes on load. A 5-second fallback timeout covers the case where the executor script itself fails to load (e.g. network timeout on the executor fetch); the iframe is disposed on failure.
+- Sandbox iframe hardening: `fetch` is re-bound to `window` (bundled code that aliases/destructures fetch no longer throws "Illegal invocation"), `window.localStorage` is overridden to return the sandboxed proxy for every access pattern (including SES lockdown introspection), and bare `localStorage` references in executor code are rewritten alongside the existing `.localStorage` rewrite. All injected scripts carry the CSP nonce when `cspNonce` is set.
 
 # 0.11.4
 
