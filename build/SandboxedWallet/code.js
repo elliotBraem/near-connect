@@ -316,6 +316,15 @@ async function getIframeCode(args) {
           },
         },
 
+        webauthn: {
+          async create(options) {
+            return await window.selector.call("webauthn.create", options);
+          },
+          async get(options) {
+            return await window.selector.call("webauthn.get", options);
+          },
+        },
+
         storage: {
           async set(key, value) {
             await window.selector.call("storage.set", { key, value });
@@ -334,6 +343,21 @@ async function getIframeCode(args) {
           },
         },
       };
+
+      // Clipboard API often rejects inside the sandbox (Android WebView), copy through the dApp page then.
+      // Plain assignment to navigator.clipboard is a no-op (getter on the prototype), so redefine the method
+      const clipboard = navigator.clipboard || {};
+      const nativeWriteText = clipboard.writeText ? clipboard.writeText.bind(clipboard) : null;
+      Object.defineProperty(clipboard, "writeText", {
+        configurable: true,
+        value: async (text) => {
+          try {
+            if (nativeWriteText) return await nativeWriteText(text);
+          } catch {}
+          await window.selector.call("clipboard.writeText", { text });
+        },
+      });
+      if (!navigator.clipboard) Object.defineProperty(navigator, "clipboard", { configurable: true, value: clipboard });
 
       window.addEventListener("message", async (event) => {
         if (event.data.origin !== "${uuid}") return;

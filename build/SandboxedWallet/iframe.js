@@ -49,6 +49,10 @@ class IframeExecutor {
             iframeAllowedPermissions.push("clipboard-write;");
         if (this.executor.checkPermissions("bluetooth"))
             iframeAllowedPermissions.push("bluetooth *;");
+        if (this.executor.checkPermissions("webauthn")) {
+            iframeAllowedPermissions.push("publickey-credentials-create *;");
+            iframeAllowedPermissions.push("publickey-credentials-get *;");
+        }
         this.iframe.allow = iframeAllowedPermissions.join(" ");
         this.iframe.setAttribute("sandbox", "allow-scripts");
         (0, code_1.default)({ id: this.origin, executor: this.executor, code, cspNonce }).then((code) => {

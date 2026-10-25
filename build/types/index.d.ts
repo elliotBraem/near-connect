@@ -123,6 +123,7 @@ export interface WalletPermissions {
     usb?: boolean;
     hid?: boolean;
     bluetooth?: boolean;
+    webauthn?: boolean;
 }
 export interface SignAndSendTransactionParams {
     network?: Network;
