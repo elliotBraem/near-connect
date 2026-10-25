@@ -7,7 +7,7 @@
       "icon": "https://app.hot-labs.org/images/hot/hot-icon.png",
       "description": "Secure Multichain wallet. Manage assets, refuel gas, and mine $HOT on any device with HOT Wallet",
       "website": "https://hot-labs.org/wallet",
-      "version": "1.0.0",
+      "version": "1.0.3",
       "executor": "https://raw.githubusercontent.com/hot-dao/near-selector/refs/heads/main/repository/hotwallet.js",
       "type": "sandbox",
 
@@ -23,7 +23,10 @@
         "signMessage": true,
         "signInWithoutAddKey": true,
         "signAndSendTransaction": true,
-        "signAndSendTransactions": true
+        "signAndSendTransactions": true,
+        "signInAndSignMessage": true,
+        "signDelegateActions": true,
+        "signInWithFunctionCallKey": true
       },
 
       "permissions": {
@@ -32,11 +35,14 @@
           "https://download.hot-labs.org",
           "https://hot-labs.org/wallet",
           "https://t.me/hot_wallet/app",
+          "https://app.hot-labs.org/link",
           "https://play.google.com",
           "https://apps.apple.com",
           "hotwallet://",
+          "intent://",
           "https://wallet.near.org"
-        ]
+        ],
+        "external": ["Telegram.WebApp", "TelegramWebviewProxy"]
       }
     },
     {
@@ -45,7 +51,7 @@
       "icon": "https://raw.githubusercontent.com/Meteor-Wallet/meteor_wallet_sdk/main/assets/meteor-logo-svg.svg",
       "description": "The most simple and secure wallet to manage your crypto, access DeFi, and explore Web3",
       "website": "https://meteorwallet.app/",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "executor": "https://raw.githubusercontent.com/Meteor-Wallet/meteor_wallet_sdk/data-storage/storage/meteor-near-connect-latest.js",
       "type": "sandbox",
 
@@ -63,7 +69,9 @@
 
       "platform": {
         "web": "https://wallet.meteorwallet.app",
-        "chrome": "https://chromewebstore.google.com/detail/meteor-wallet/pcndjhkinnkaohffealmlmhaepkpmgkb"
+        "chrome": "https://chromewebstore.google.com/detail/meteor-wallet/pcndjhkinnkaohffealmlmhaepkpmgkb",
+        "android": "https://play.google.com/store/apps/details?id=app.meteorwallet.v2",
+        "ios": "https://apps.apple.com/us/app/meteor-wallet/id6739558223"
       },
 
       "permissions": {
@@ -71,7 +79,9 @@
         "allowsOpen": [
           "https://chromewebstore.google.com",
           "https://wallet.meteorwallet.app",
-          "https://meteorwallet.app"
+          "https://meteorwallet.app",
+          "meteorwallet://",
+          "meteorwalletdev://"
         ],
         "external": ["meteorCom", "meteorComV2"]
       }
@@ -370,6 +380,38 @@
         "signInWithoutAddKey": true,
         "signAndSendTransaction": true,
         "signAndSendTransactions": true
+      }
+    },
+    {
+      "id": "ethereum-wallets",
+      "name": "Ethereum Wallets",
+      "description": "Use MetaMask or WalletConnect to sign NEAR transactions.",
+      "icon": "https://evm-on-near.dev/ethereum.svg",
+      "website": "https://evm-on-near.dev/",
+      "version": "0.1.4",
+      "executor": "https://evm-on-near.dev/executor.js",
+      "type": "sandbox",
+      "platform": {
+        "web": "https://evm-on-near.dev/"
+      },
+      "features": {
+        "signMessage": false,
+        "signTransaction": false,
+        "signAndSendTransaction": true,
+        "signAndSendTransactions": true,
+        "signInWithoutAddKey": true,
+        "signInAndSignMessage": false,
+        "signInWithFunctionCallKey": false,
+        "signDelegateActions": false,
+        "mainnet": true,
+        "testnet": true
+      },
+      "permissions": {
+        "storage": true,
+        "allowsOpen": ["https://evm-on-near.dev/"]
+      },
+      "metadata": {
+        "signPageURL": "https://evm-on-near.dev/"
       }
     },
     {

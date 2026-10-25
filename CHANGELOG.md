@@ -15,6 +15,12 @@
 - New `yarn test` script (build + public type assertions + no-near-js guard) and `build-scripts/release-fork.sh` for cutting tag-based GitHub installs while changes are pending upstream. `prepublish` → `prepublishOnly` (npm 7+ never runs `prepublish`). `WalletFeatures`, `SignDelegateActionsResponse` and the `Execution*` outcome types are now exported from the package root.
 - Signed delegate actions inside a transaction now throw a clear error instead of being passed through; delegates are signed via `signDelegateActions`.
 
+# 0.11.5
+
+- Fix opening wallet links from a Telegram Mini App: `window.open` from the sandbox is blocked there, so https links now go through Telegram (`openTelegramLink` / `openLink`), also when the dApp does not load `telegram-web-app.js`. The open request now always gets a response.
+- Copy to clipboard from sandboxed wallets falls back to the dApp page (`clipboardWrite` permission) when the Clipboard API rejects inside the sandbox, e.g. in Android webviews.
+- A failed IndexedDB write of the executor cache (iOS Safari "Connection to Indexed Database server lost", private mode) no longer stops the wallet from opening; an executor response with an HTTP error is not cached and run.
+
 # 0.11.4
 
 - Add `cspNonce` option to `NearConnector` for CSP compliance. When set, the nonce is added to both `<script>` tags inside the `srcdoc` sandbox iframe, allowing them to execute under nonce-based Content Security Policy.
